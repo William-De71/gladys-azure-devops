@@ -1,0 +1,12 @@
+Gladys Azure DevOps integration
+Copyright 2026 William Deren
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+It reads the official Azure DevOps REST API 7.1
+(https://learn.microsoft.com/rest/api/azure/devops/) of Azure DevOps Services
+or Azure DevOps Server, with the personal access token of the user.
+
+Azure DevOps and Azure Pipelines are trademarks of the Microsoft group of
+companies. This community integration is not affiliated with, endorsed or
+sponsored by Microsoft.

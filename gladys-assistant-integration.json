@@ -1,0 +1,1637 @@
+{
+  "manifest_version": 1,
+  "type": "device",
+  "name": "Azure DevOps",
+  "description": {
+    "en": "Azure DevOps pipelines, pull requests and work items in your scenes and dashboards.",
+    "fr": "Pipelines, pull requests et éléments de travail Azure DevOps dans vos scènes et tableaux de bord.",
+    "de": "Azure-DevOps-Pipelines, Pull Requests und Arbeitselemente in Szenen und Dashboards.",
+    "es": "Pipelines, pull requests y elementos de trabajo de Azure DevOps en escenas y paneles."
+  },
+  "version": "0.1.0",
+  "docker_image": "ghcr.io/william-de71/gladys-azure-devops:0.1.0",
+  "gladys_version": ">=5.3.0",
+  "categories": ["services", "notifications"],
+  "keywords": [
+    "azure devops",
+    "vsts",
+    "tfs",
+    "azure pipelines",
+    "pull request",
+    "work item",
+    "CI/CD",
+    "build",
+    "developer",
+    "microsoft"
+  ],
+  "cover_image": "https://raw.githubusercontent.com/William-De71/gladys-azure-devops/main/cover.jpg",
+  "transports": ["cloud"],
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Azure DevOps access",
+        "fr": "Accès à Azure DevOps",
+        "de": "Zugriff auf Azure DevOps",
+        "es": "Acceso a Azure DevOps"
+      },
+      "description": {
+        "en": "The integration reads your organization with a personal access token (PAT). In Azure DevOps, open User settings, then Personal access tokens, and add a token for this organization with these scopes: Build (Read & execute), Code (Read), Work Items (Read), Project and Team (Read). Build (Read) is enough if you do not run pipelines from scenes. Copy the token below.",
+        "fr": "L’intégration lit votre organisation avec un jeton d’accès personnel (PAT). Dans Azure DevOps, ouvrez Paramètres utilisateur, puis Jetons d’accès personnels, et ajoutez un jeton pour cette organisation avec ces étendues : Build (Read & execute), Code (Read), Work Items (Read), Project and Team (Read). Build (Read) suffit si vous ne lancez pas de pipeline depuis les scènes. Copiez le jeton ci-dessous.",
+        "de": "Die Integration liest deine Organisation mit einem persönlichen Zugriffstoken (PAT). Öffne in Azure DevOps die Benutzereinstellungen, dann Persönliche Zugriffstoken, und füge für diese Organisation ein Token mit diesen Bereichen hinzu: Build (Read & execute), Code (Read), Work Items (Read), Project and Team (Read). Build (Read) reicht, wenn du keine Pipelines aus Szenen startest. Kopiere das Token hierher.",
+        "es": "La integración lee su organización con un token de acceso personal (PAT). En Azure DevOps, abra Configuración de usuario y luego Tokens de acceso personal, y añada un token para esta organización con estos ámbitos: Build (Read & execute), Code (Read), Work Items (Read), Project and Team (Read). Basta con Build (Read) si no lanza pipelines desde las escenas. Copie el token aquí."
+      },
+      "links": [
+        {
+          "url": "https://learn.microsoft.com/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate",
+          "label": {
+            "en": "Create a personal access token",
+            "fr": "Créer un jeton d’accès personnel",
+            "de": "Ein persönliches Zugriffstoken erstellen",
+            "es": "Crear un token de acceso personal"
+          }
+        }
+      ]
+    },
+    {
+      "key": "organization",
+      "type": "string",
+      "label": {
+        "en": "Organization",
+        "fr": "Organisation",
+        "de": "Organisation",
+        "es": "Organización"
+      },
+      "description": {
+        "en": "Its name (contoso) or its link (https://dev.azure.com/contoso). Azure DevOps Server 2022.1 or later: the address of the collection (https://server/tfs/DefaultCollection).",
+        "fr": "Son nom (contoso) ou son lien (https://dev.azure.com/contoso). Azure DevOps Server 2022.1 ou plus récent : l’adresse de la collection (https://serveur/tfs/DefaultCollection).",
+        "de": "Ihr Name (contoso) oder ihr Link (https://dev.azure.com/contoso). Azure DevOps Server 2022.1 oder neuer: die Adresse der Sammlung (https://server/tfs/DefaultCollection).",
+        "es": "Su nombre (contoso) o su enlace (https://dev.azure.com/contoso). Azure DevOps Server 2022.1 o posterior: la dirección de la colección (https://servidor/tfs/DefaultCollection)."
+      },
+      "placeholder": {
+        "en": "contoso",
+        "fr": "contoso",
+        "de": "contoso",
+        "es": "contoso"
+      },
+      "required": true
+    },
+    {
+      "key": "token",
+      "type": "secret",
+      "label": {
+        "en": "Personal access token",
+        "fr": "Jeton d’accès personnel",
+        "de": "Persönliches Zugriffstoken",
+        "es": "Token de acceso personal"
+      },
+      "description": {
+        "en": "Created for this organization, with the scopes listed above. Note its expiry date: Azure DevOps refuses it afterwards.",
+        "fr": "Créé pour cette organisation, avec les étendues listées plus haut. Notez sa date d’expiration : Azure DevOps le refuse ensuite.",
+        "de": "Für diese Organisation erstellt, mit den oben genannten Bereichen. Merke dir das Ablaufdatum: danach lehnt Azure DevOps es ab.",
+        "es": "Creado para esta organización, con los ámbitos indicados arriba. Anote su fecha de caducidad: después Azure DevOps lo rechaza."
+      },
+      "required": true
+    },
+    {
+      "key": "projects_intro",
+      "type": "section",
+      "label": {
+        "en": "Followed projects",
+        "fr": "Projets suivis",
+        "de": "Verfolgte Projekte",
+        "es": "Proyectos seguidos"
+      },
+      "description": {
+        "en": "Each followed project becomes a device on the Discovery screen. Scene triggers and widgets pick them by device.",
+        "fr": "Chaque projet suivi devient un appareil dans l’écran Découverte. Les déclencheurs de scène et les widgets les choisissent par appareil.",
+        "de": "Jedes verfolgte Projekt wird ein Gerät im Bildschirm Erkennung. Szenenauslöser und Widgets wählen sie über das Gerät.",
+        "es": "Cada proyecto seguido se convierte en un dispositivo en la pantalla Descubrimiento. Los disparadores de escena y los widgets los eligen por dispositivo."
+      }
+    },
+    {
+      "key": "projects",
+      "type": "string",
+      "label": {
+        "en": "Projects",
+        "fr": "Projets",
+        "de": "Projekte",
+        "es": "Proyectos"
+      },
+      "description": {
+        "en": "Project names separated by commas (20 at most). Leave empty to follow every project of the organization (the first 20 by name).",
+        "fr": "Noms des projets séparés par des virgules (20 au plus). Laissez vide pour suivre tous les projets de l’organisation (les 20 premiers par nom).",
+        "de": "Projektnamen durch Kommas getrennt (höchstens 20). Leer lassen, um alle Projekte der Organisation zu verfolgen (die ersten 20 nach Name).",
+        "es": "Nombres de los proyectos separados por comas (20 como máximo). Déjelo vacío para seguir todos los proyectos de la organización (los 20 primeros por nombre)."
+      },
+      "placeholder": {
+        "en": "Web, Mobile App",
+        "fr": "Web, Mobile App",
+        "de": "Web, Mobile App",
+        "es": "Web, Mobile App"
+      },
+      "required": false
+    },
+    {
+      "key": "poll_interval",
+      "type": "number",
+      "label": {
+        "en": "Refresh interval (s)",
+        "fr": "Intervalle de lecture (s)",
+        "de": "Abfrageintervall (s)",
+        "es": "Intervalo de lectura (s)"
+      },
+      "description": {
+        "en": "How often Azure DevOps is read, between 60 and 3600 seconds. It is also the delay of the scene triggers.",
+        "fr": "Fréquence de lecture d’Azure DevOps, entre 60 et 3600 secondes. C’est aussi le délai de réaction des déclencheurs de scène.",
+        "de": "Wie oft Azure DevOps gelesen wird, zwischen 60 und 3600 Sekunden. Das ist auch die Reaktionszeit der Szenenauslöser.",
+        "es": "Cada cuánto se lee Azure DevOps, entre 60 y 3600 segundos. Es también el retardo de los disparadores de escena."
+      },
+      "min": 60,
+      "max": 3600,
+      "default": 120,
+      "required": false
+    },
+    {
+      "key": "language",
+      "type": "select",
+      "label": {
+        "en": "Language of the texts",
+        "fr": "Langue des textes",
+        "de": "Sprache der Texte",
+        "es": "Idioma de los textos"
+      },
+      "description": {
+        "en": "Device names, scene summaries and outputs. Automatic: the language of your dashboard, once an Azure DevOps widget has been displayed.",
+        "fr": "Noms des appareils, résumés et sorties des scènes. Automatique : la langue de votre tableau de bord, dès qu’un widget Azure DevOps a été affiché.",
+        "de": "Gerätenamen, Zusammenfassungen und Ausgaben der Szenen. Automatisch: die Sprache deines Dashboards, sobald ein Azure-DevOps-Widget angezeigt wurde.",
+        "es": "Nombres de los dispositivos, resúmenes y salidas de las escenas. Automático: el idioma de su panel, en cuanto se haya mostrado un widget de Azure DevOps."
+      },
+      "options": [
+        {
+          "value": "auto",
+          "label": {
+            "en": "Automatic",
+            "fr": "Automatique",
+            "de": "Automatisch",
+            "es": "Automático"
+          }
+        },
+        {
+          "value": "en",
+          "label": {
+            "en": "English",
+            "fr": "English",
+            "de": "English",
+            "es": "English"
+          }
+        },
+        {
+          "value": "fr",
+          "label": {
+            "en": "Français",
+            "fr": "Français",
+            "de": "Français",
+            "es": "Français"
+          }
+        },
+        {
+          "value": "de",
+          "label": {
+            "en": "Deutsch",
+            "fr": "Deutsch",
+            "de": "Deutsch",
+            "es": "Deutsch"
+          }
+        },
+        {
+          "value": "es",
+          "label": {
+            "en": "Español",
+            "fr": "Español",
+            "de": "Español",
+            "es": "Español"
+          }
+        }
+      ],
+      "default": "auto",
+      "required": false
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "description": {
+        "en": "Checks the organization and the token, and reads every followed project.",
+        "fr": "Vérifie l’organisation et le jeton, et lit chaque projet suivi.",
+        "de": "Prüft die Organisation und das Token und liest jedes verfolgte Projekt.",
+        "es": "Comprueba la organización y el token, y lee cada proyecto seguido."
+      },
+      "timeout_seconds": 60
+    }
+  ],
+  "widgets": [
+    {
+      "key": "overview",
+      "label": {
+        "en": "Azure DevOps",
+        "fr": "Azure DevOps",
+        "de": "Azure DevOps",
+        "es": "Azure DevOps"
+      },
+      "description": {
+        "en": "Pull requests to review, my work items, failed pipelines, running builds.",
+        "fr": "Pull requests à relire, mes éléments, pipelines en échec, builds en cours.",
+        "de": "Zu prüfende Pull Requests, meine Elemente, fehlgeschlagene Pipelines, Builds.",
+        "es": "Pull requests por revisar, mis elementos, pipelines fallidas, builds en curso."
+      },
+      "icon": "layers",
+      "settings": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "Leave empty for every followed project.",
+            "fr": "Laissez vide pour tous les projets suivis.",
+            "de": "Leer lassen für alle verfolgten Projekte.",
+            "es": "Déjelo vacío para todos los proyectos seguidos."
+          },
+          "required": false
+        }
+      ]
+    },
+    {
+      "key": "pipelines",
+      "label": {
+        "en": "Azure Pipelines",
+        "fr": "Azure Pipelines",
+        "de": "Azure Pipelines",
+        "es": "Azure Pipelines"
+      },
+      "description": {
+        "en": "The pipelines of a project and the result of their last run.",
+        "fr": "Les pipelines d’un projet et le résultat de leur dernière exécution.",
+        "de": "Die Pipelines eines Projekts und das Ergebnis ihrer letzten Ausführung.",
+        "es": "Las pipelines de un proyecto y el resultado de su última ejecución."
+      },
+      "icon": "play-circle",
+      "settings": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "Leave empty for the first followed project.",
+            "fr": "Laissez vide pour le premier projet suivi.",
+            "de": "Leer lassen für das erste verfolgte Projekt.",
+            "es": "Déjelo vacío para el primer proyecto seguido."
+          },
+          "required": false
+        },
+        {
+          "key": "count",
+          "type": "number",
+          "label": {
+            "en": "Entries shown",
+            "fr": "Entrées affichées",
+            "de": "Angezeigte Einträge",
+            "es": "Entradas mostradas"
+          },
+          "min": 1,
+          "max": 8,
+          "default": 6,
+          "required": false
+        }
+      ]
+    },
+    {
+      "key": "pull_requests",
+      "label": {
+        "en": "Pull requests",
+        "fr": "Pull requests",
+        "de": "Pull Requests",
+        "es": "Pull requests"
+      },
+      "description": {
+        "en": "The active pull requests: all of them, those to review, or yours.",
+        "fr": "Les pull requests actives : toutes, celles à relire, ou les vôtres.",
+        "de": "Die aktiven Pull Requests: alle, die zu prüfenden oder deine.",
+        "es": "Las pull requests activas: todas, las pendientes de revisar o las suyas."
+      },
+      "icon": "git-pull-request",
+      "settings": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "Leave empty for every followed project.",
+            "fr": "Laissez vide pour tous les projets suivis.",
+            "de": "Leer lassen für alle verfolgten Projekte.",
+            "es": "Déjelo vacío para todos los proyectos seguidos."
+          },
+          "required": false
+        },
+        {
+          "key": "filter",
+          "type": "select",
+          "label": {
+            "en": "Show",
+            "fr": "Afficher",
+            "de": "Anzeigen",
+            "es": "Mostrar"
+          },
+          "options": [
+            {
+              "value": "all",
+              "label": {
+                "en": "All active",
+                "fr": "Toutes les actives",
+                "de": "Alle aktiven",
+                "es": "Todas las activas"
+              }
+            },
+            {
+              "value": "to_review",
+              "label": {
+                "en": "Waiting for my vote",
+                "fr": "En attente de mon vote",
+                "de": "Warten auf meine Stimme",
+                "es": "Pendientes de mi voto"
+              }
+            },
+            {
+              "value": "mine",
+              "label": {
+                "en": "Created by me",
+                "fr": "Créées par moi",
+                "de": "Von mir erstellt",
+                "es": "Creadas por mí"
+              }
+            }
+          ],
+          "default": "all",
+          "required": false
+        },
+        {
+          "key": "count",
+          "type": "number",
+          "label": {
+            "en": "Entries shown",
+            "fr": "Entrées affichées",
+            "de": "Angezeigte Einträge",
+            "es": "Entradas mostradas"
+          },
+          "min": 1,
+          "max": 8,
+          "default": 6,
+          "required": false
+        }
+      ]
+    },
+    {
+      "key": "work_items",
+      "label": {
+        "en": "My work items",
+        "fr": "Mes éléments de travail",
+        "de": "Meine Arbeitselemente",
+        "es": "Mis elementos de trabajo"
+      },
+      "description": {
+        "en": "The open work items assigned to you, last changed first.",
+        "fr": "Les éléments de travail ouverts qui vous sont assignés, derniers modifiés d’abord.",
+        "de": "Die offenen Arbeitselemente, die dir zugewiesen sind, zuletzt geänderte zuerst.",
+        "es": "Los elementos de trabajo abiertos asignados a usted, los últimos modificados primero."
+      },
+      "icon": "clipboard",
+      "settings": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "Leave empty for every followed project.",
+            "fr": "Laissez vide pour tous les projets suivis.",
+            "de": "Leer lassen für alle verfolgten Projekte.",
+            "es": "Déjelo vacío para todos los proyectos seguidos."
+          },
+          "required": false
+        },
+        {
+          "key": "count",
+          "type": "number",
+          "label": {
+            "en": "Entries shown",
+            "fr": "Entrées affichées",
+            "de": "Angezeigte Einträge",
+            "es": "Entradas mostradas"
+          },
+          "min": 1,
+          "max": 8,
+          "default": 6,
+          "required": false
+        }
+      ]
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "build_completed",
+      "label": {
+        "en": "Azure DevOps: pipeline run completed",
+        "fr": "Azure DevOps : exécution de pipeline terminée",
+        "de": "Azure DevOps: Pipeline-Ausführung beendet",
+        "es": "Azure DevOps: ejecución de pipeline terminada"
+      },
+      "description": {
+        "en": "A run of a pipeline of a followed project succeeds, fails or is canceled.",
+        "fr": "Une exécution d’un pipeline d’un projet suivi réussit, échoue ou est annulée.",
+        "de": "Eine Ausführung einer Pipeline eines verfolgten Projekts ist erfolgreich, schlägt fehl oder wird abgebrochen.",
+        "es": "Una ejecución de una pipeline de un proyecto seguido termina bien, falla o se cancela."
+      },
+      "fields": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "One of the Azure DevOps project devices. Leave empty for any project.",
+            "fr": "Un des appareils de projet Azure DevOps. Laissez vide pour tous les projets.",
+            "de": "Eines der Azure-DevOps-Projektgeräte. Leer lassen für jedes Projekt.",
+            "es": "Uno de los dispositivos de proyecto de Azure DevOps. Déjelo vacío para cualquier proyecto."
+          },
+          "required": false
+        },
+        {
+          "key": "result",
+          "type": "select",
+          "label": {
+            "en": "Result",
+            "fr": "Résultat",
+            "de": "Ergebnis",
+            "es": "Resultado"
+          },
+          "description": {
+            "en": "Leave empty for any.",
+            "fr": "Laissez vide pour tous.",
+            "de": "Leer lassen für jedes.",
+            "es": "Déjelo vacío para cualquiera."
+          },
+          "options": [
+            {
+              "value": "succeeded",
+              "label": {
+                "en": "Succeeded",
+                "fr": "Réussi",
+                "de": "Erfolgreich",
+                "es": "Correcto"
+              }
+            },
+            {
+              "value": "partiallySucceeded",
+              "label": {
+                "en": "Partially succeeded",
+                "fr": "Réussi en partie",
+                "de": "Teilweise erfolgreich",
+                "es": "Correcto en parte"
+              }
+            },
+            {
+              "value": "failed",
+              "label": {
+                "en": "Failed",
+                "fr": "Échec",
+                "de": "Fehlgeschlagen",
+                "es": "Fallido"
+              }
+            },
+            {
+              "value": "canceled",
+              "label": {
+                "en": "Canceled",
+                "fr": "Annulé",
+                "de": "Abgebrochen",
+                "es": "Cancelado"
+              }
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "pipeline",
+          "type": "string",
+          "label": {
+            "en": "Pipeline",
+            "fr": "Pipeline",
+            "de": "Pipeline",
+            "es": "Pipeline"
+          },
+          "description": {
+            "en": "The pipeline name, exactly. Leave empty for any.",
+            "fr": "Le nom du pipeline, à l’identique. Laissez vide pour tous.",
+            "de": "Der Pipeline-Name, genau. Leer lassen für alle.",
+            "es": "El nombre de la pipeline, exacto. Déjelo vacío para cualquiera."
+          },
+          "required": false
+        },
+        {
+          "key": "branch",
+          "type": "string",
+          "label": {
+            "en": "Branch",
+            "fr": "Branche",
+            "de": "Branch",
+            "es": "Rama"
+          },
+          "description": {
+            "en": "For example main (a pull request build shows as PR 12). Leave empty for any.",
+            "fr": "Par exemple main (le build d’une pull request s’affiche PR 12). Laissez vide pour tous.",
+            "de": "Zum Beispiel main (ein Pull-Request-Build heißt PR 12). Leer lassen für alle.",
+            "es": "Por ejemplo main (la build de una pull request aparece como PR 12). Déjelo vacío para cualquiera."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "project_name",
+          "type": "string",
+          "label": {
+            "en": "Project name",
+            "fr": "Nom du projet",
+            "de": "Projektname",
+            "es": "Nombre del proyecto"
+          }
+        },
+        {
+          "key": "pipeline",
+          "type": "string",
+          "label": {
+            "en": "Pipeline",
+            "fr": "Pipeline",
+            "de": "Pipeline",
+            "es": "Pipeline"
+          }
+        },
+        {
+          "key": "build_number",
+          "type": "string",
+          "label": {
+            "en": "Run number",
+            "fr": "Numéro d’exécution",
+            "de": "Ausführungsnummer",
+            "es": "Número de ejecución"
+          }
+        },
+        {
+          "key": "result",
+          "type": "string",
+          "label": {
+            "en": "Result (succeeded, partiallySucceeded, failed, canceled)",
+            "fr": "Résultat (succeeded, partiallySucceeded, failed, canceled)",
+            "de": "Ergebnis (succeeded, partiallySucceeded, failed, canceled)",
+            "es": "Resultado (succeeded, partiallySucceeded, failed, canceled)"
+          }
+        },
+        {
+          "key": "branch",
+          "type": "string",
+          "label": {
+            "en": "Branch",
+            "fr": "Branche",
+            "de": "Branch",
+            "es": "Rama"
+          }
+        },
+        {
+          "key": "requested_by",
+          "type": "string",
+          "label": {
+            "en": "Requested by",
+            "fr": "Demandé par",
+            "de": "Angefordert von",
+            "es": "Solicitado por"
+          }
+        },
+        {
+          "key": "reason",
+          "type": "string",
+          "label": {
+            "en": "Reason (manual, individualCI, schedule, pullRequest…)",
+            "fr": "Raison (manual, individualCI, schedule, pullRequest…)",
+            "de": "Grund (manual, individualCI, schedule, pullRequest…)",
+            "es": "Motivo (manual, individualCI, schedule, pullRequest…)"
+          }
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "label": {
+            "en": "Azure DevOps link",
+            "fr": "Lien Azure DevOps",
+            "de": "Azure-DevOps-Link",
+            "es": "Enlace de Azure DevOps"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready for a message, in the language of the integration.",
+            "fr": "Une phrase prête pour un message, dans la langue de l’intégration.",
+            "de": "Ein Satz für eine Nachricht, in der Sprache der Integration.",
+            "es": "Una frase lista para un mensaje, en el idioma de la integración."
+          }
+        }
+      ]
+    },
+    {
+      "key": "pull_request_created",
+      "label": {
+        "en": "Azure DevOps: pull request created",
+        "fr": "Azure DevOps : pull request créée",
+        "de": "Azure DevOps: Pull Request erstellt",
+        "es": "Azure DevOps: pull request creada"
+      },
+      "description": {
+        "en": "Someone opens a pull request in a followed project.",
+        "fr": "Quelqu’un ouvre une pull request dans un projet suivi.",
+        "de": "Jemand öffnet einen Pull Request in einem verfolgten Projekt.",
+        "es": "Alguien abre una pull request en un proyecto seguido."
+      },
+      "fields": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "One of the Azure DevOps project devices. Leave empty for any project.",
+            "fr": "Un des appareils de projet Azure DevOps. Laissez vide pour tous les projets.",
+            "de": "Eines der Azure-DevOps-Projektgeräte. Leer lassen für jedes Projekt.",
+            "es": "Uno de los dispositivos de proyecto de Azure DevOps. Déjelo vacío para cualquier proyecto."
+          },
+          "required": false
+        },
+        {
+          "key": "repository",
+          "type": "string",
+          "label": {
+            "en": "Repository",
+            "fr": "Dépôt",
+            "de": "Repository",
+            "es": "Repositorio"
+          },
+          "description": {
+            "en": "The repository name, exactly. Leave empty for any.",
+            "fr": "Le nom du dépôt, à l’identique. Laissez vide pour tous.",
+            "de": "Der Repository-Name, genau. Leer lassen für alle.",
+            "es": "El nombre del repositorio, exacto. Déjelo vacío para cualquiera."
+          },
+          "required": false
+        },
+        {
+          "key": "target_branch",
+          "type": "string",
+          "label": {
+            "en": "Target branch",
+            "fr": "Branche cible",
+            "de": "Zielbranch",
+            "es": "Rama de destino"
+          },
+          "description": {
+            "en": "For example main. Leave empty for any.",
+            "fr": "Par exemple main. Laissez vide pour tous.",
+            "de": "Zum Beispiel main. Leer lassen für alle.",
+            "es": "Por ejemplo main. Déjelo vacío para cualquiera."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "project_name",
+          "type": "string",
+          "label": {
+            "en": "Project name",
+            "fr": "Nom du projet",
+            "de": "Projektname",
+            "es": "Nombre del proyecto"
+          }
+        },
+        {
+          "key": "repository",
+          "type": "string",
+          "label": {
+            "en": "Repository",
+            "fr": "Dépôt",
+            "de": "Repository",
+            "es": "Repositorio"
+          }
+        },
+        {
+          "key": "number",
+          "type": "number",
+          "label": {
+            "en": "Pull request number",
+            "fr": "Numéro de la pull request",
+            "de": "Pull-Request-Nummer",
+            "es": "Número de la pull request"
+          }
+        },
+        {
+          "key": "title",
+          "type": "string",
+          "label": {
+            "en": "Title",
+            "fr": "Titre",
+            "de": "Titel",
+            "es": "Título"
+          }
+        },
+        {
+          "key": "author",
+          "type": "string",
+          "label": {
+            "en": "Author",
+            "fr": "Auteur",
+            "de": "Autor",
+            "es": "Autor"
+          }
+        },
+        {
+          "key": "draft",
+          "type": "boolean",
+          "label": {
+            "en": "Draft",
+            "fr": "Brouillon",
+            "de": "Entwurf",
+            "es": "Borrador"
+          }
+        },
+        {
+          "key": "target_branch",
+          "type": "string",
+          "label": {
+            "en": "Target branch",
+            "fr": "Branche cible",
+            "de": "Zielbranch",
+            "es": "Rama de destino"
+          }
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "label": {
+            "en": "Azure DevOps link",
+            "fr": "Lien Azure DevOps",
+            "de": "Azure-DevOps-Link",
+            "es": "Enlace de Azure DevOps"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready for a message, in the language of the integration.",
+            "fr": "Une phrase prête pour un message, dans la langue de l’intégration.",
+            "de": "Ein Satz für eine Nachricht, in der Sprache der Integration.",
+            "es": "Una frase lista para un mensaje, en el idioma de la integración."
+          }
+        }
+      ]
+    },
+    {
+      "key": "review_requested",
+      "label": {
+        "en": "Azure DevOps: review requested",
+        "fr": "Azure DevOps : relecture demandée",
+        "de": "Azure DevOps: Review angefordert",
+        "es": "Azure DevOps: revisión solicitada"
+      },
+      "description": {
+        "en": "A pull request now waits for your vote (you are a reviewer and have not voted).",
+        "fr": "Une pull request attend votre vote (vous êtes relecteur et n’avez pas voté).",
+        "de": "Ein Pull Request wartet auf deine Stimme (du bist Reviewer und hast nicht abgestimmt).",
+        "es": "Una pull request espera su voto (usted es revisor y no ha votado)."
+      },
+      "fields": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "One of the Azure DevOps project devices. Leave empty for any project.",
+            "fr": "Un des appareils de projet Azure DevOps. Laissez vide pour tous les projets.",
+            "de": "Eines der Azure-DevOps-Projektgeräte. Leer lassen für jedes Projekt.",
+            "es": "Uno de los dispositivos de proyecto de Azure DevOps. Déjelo vacío para cualquier proyecto."
+          },
+          "required": false
+        },
+        {
+          "key": "repository",
+          "type": "string",
+          "label": {
+            "en": "Repository",
+            "fr": "Dépôt",
+            "de": "Repository",
+            "es": "Repositorio"
+          },
+          "description": {
+            "en": "The repository name, exactly. Leave empty for any.",
+            "fr": "Le nom du dépôt, à l’identique. Laissez vide pour tous.",
+            "de": "Der Repository-Name, genau. Leer lassen für alle.",
+            "es": "El nombre del repositorio, exacto. Déjelo vacío para cualquiera."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "project_name",
+          "type": "string",
+          "label": {
+            "en": "Project name",
+            "fr": "Nom du projet",
+            "de": "Projektname",
+            "es": "Nombre del proyecto"
+          }
+        },
+        {
+          "key": "repository",
+          "type": "string",
+          "label": {
+            "en": "Repository",
+            "fr": "Dépôt",
+            "de": "Repository",
+            "es": "Repositorio"
+          }
+        },
+        {
+          "key": "number",
+          "type": "number",
+          "label": {
+            "en": "Pull request number",
+            "fr": "Numéro de la pull request",
+            "de": "Pull-Request-Nummer",
+            "es": "Número de la pull request"
+          }
+        },
+        {
+          "key": "title",
+          "type": "string",
+          "label": {
+            "en": "Title",
+            "fr": "Titre",
+            "de": "Titel",
+            "es": "Título"
+          }
+        },
+        {
+          "key": "author",
+          "type": "string",
+          "label": {
+            "en": "Author",
+            "fr": "Auteur",
+            "de": "Autor",
+            "es": "Autor"
+          }
+        },
+        {
+          "key": "target_branch",
+          "type": "string",
+          "label": {
+            "en": "Target branch",
+            "fr": "Branche cible",
+            "de": "Zielbranch",
+            "es": "Rama de destino"
+          }
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "label": {
+            "en": "Azure DevOps link",
+            "fr": "Lien Azure DevOps",
+            "de": "Azure-DevOps-Link",
+            "es": "Enlace de Azure DevOps"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready for a message, in the language of the integration.",
+            "fr": "Une phrase prête pour un message, dans la langue de l’intégration.",
+            "de": "Ein Satz für eine Nachricht, in der Sprache der Integration.",
+            "es": "Una frase lista para un mensaje, en el idioma de la integración."
+          }
+        }
+      ]
+    },
+    {
+      "key": "pull_request_completed",
+      "label": {
+        "en": "Azure DevOps: pull request completed",
+        "fr": "Azure DevOps : pull request terminée",
+        "de": "Azure DevOps: Pull Request abgeschlossen",
+        "es": "Azure DevOps: pull request completada"
+      },
+      "description": {
+        "en": "A pull request of a followed project is completed (merged).",
+        "fr": "Une pull request d’un projet suivi est terminée (fusionnée).",
+        "de": "Ein Pull Request eines verfolgten Projekts wird abgeschlossen (gemergt).",
+        "es": "Una pull request de un proyecto seguido se completa (fusiona)."
+      },
+      "fields": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "One of the Azure DevOps project devices. Leave empty for any project.",
+            "fr": "Un des appareils de projet Azure DevOps. Laissez vide pour tous les projets.",
+            "de": "Eines der Azure-DevOps-Projektgeräte. Leer lassen für jedes Projekt.",
+            "es": "Uno de los dispositivos de proyecto de Azure DevOps. Déjelo vacío para cualquier proyecto."
+          },
+          "required": false
+        },
+        {
+          "key": "repository",
+          "type": "string",
+          "label": {
+            "en": "Repository",
+            "fr": "Dépôt",
+            "de": "Repository",
+            "es": "Repositorio"
+          },
+          "description": {
+            "en": "The repository name, exactly. Leave empty for any.",
+            "fr": "Le nom du dépôt, à l’identique. Laissez vide pour tous.",
+            "de": "Der Repository-Name, genau. Leer lassen für alle.",
+            "es": "El nombre del repositorio, exacto. Déjelo vacío para cualquiera."
+          },
+          "required": false
+        },
+        {
+          "key": "target_branch",
+          "type": "string",
+          "label": {
+            "en": "Target branch",
+            "fr": "Branche cible",
+            "de": "Zielbranch",
+            "es": "Rama de destino"
+          },
+          "description": {
+            "en": "For example main. Leave empty for any.",
+            "fr": "Par exemple main. Laissez vide pour tous.",
+            "de": "Zum Beispiel main. Leer lassen für alle.",
+            "es": "Por ejemplo main. Déjelo vacío para cualquiera."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "project_name",
+          "type": "string",
+          "label": {
+            "en": "Project name",
+            "fr": "Nom du projet",
+            "de": "Projektname",
+            "es": "Nombre del proyecto"
+          }
+        },
+        {
+          "key": "repository",
+          "type": "string",
+          "label": {
+            "en": "Repository",
+            "fr": "Dépôt",
+            "de": "Repository",
+            "es": "Repositorio"
+          }
+        },
+        {
+          "key": "number",
+          "type": "number",
+          "label": {
+            "en": "Pull request number",
+            "fr": "Numéro de la pull request",
+            "de": "Pull-Request-Nummer",
+            "es": "Número de la pull request"
+          }
+        },
+        {
+          "key": "title",
+          "type": "string",
+          "label": {
+            "en": "Title",
+            "fr": "Titre",
+            "de": "Titel",
+            "es": "Título"
+          }
+        },
+        {
+          "key": "author",
+          "type": "string",
+          "label": {
+            "en": "Author",
+            "fr": "Auteur",
+            "de": "Autor",
+            "es": "Autor"
+          }
+        },
+        {
+          "key": "target_branch",
+          "type": "string",
+          "label": {
+            "en": "Target branch",
+            "fr": "Branche cible",
+            "de": "Zielbranch",
+            "es": "Rama de destino"
+          }
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "label": {
+            "en": "Azure DevOps link",
+            "fr": "Lien Azure DevOps",
+            "de": "Azure-DevOps-Link",
+            "es": "Enlace de Azure DevOps"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready for a message, in the language of the integration.",
+            "fr": "Une phrase prête pour un message, dans la langue de l’intégration.",
+            "de": "Ein Satz für eine Nachricht, in der Sprache der Integration.",
+            "es": "Una frase lista para un mensaje, en el idioma de la integración."
+          }
+        }
+      ]
+    },
+    {
+      "key": "work_item_assigned",
+      "label": {
+        "en": "Azure DevOps: work item assigned to me",
+        "fr": "Azure DevOps : élément de travail assigné",
+        "de": "Azure DevOps: Arbeitselement zugewiesen",
+        "es": "Azure DevOps: elemento de trabajo asignado"
+      },
+      "description": {
+        "en": "An open work item is newly assigned to you.",
+        "fr": "Un élément de travail ouvert vient de vous être assigné.",
+        "de": "Dir wurde ein offenes Arbeitselement zugewiesen.",
+        "es": "Se le acaba de asignar un elemento de trabajo abierto."
+      },
+      "fields": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "One of the Azure DevOps project devices. Leave empty for any project.",
+            "fr": "Un des appareils de projet Azure DevOps. Laissez vide pour tous les projets.",
+            "de": "Eines der Azure-DevOps-Projektgeräte. Leer lassen für jedes Projekt.",
+            "es": "Uno de los dispositivos de proyecto de Azure DevOps. Déjelo vacío para cualquier proyecto."
+          },
+          "required": false
+        },
+        {
+          "key": "work_item_type",
+          "type": "string",
+          "label": {
+            "en": "Type",
+            "fr": "Type",
+            "de": "Typ",
+            "es": "Tipo"
+          },
+          "description": {
+            "en": "For example Bug or User Story, as written in the project. Leave empty for any.",
+            "fr": "Par exemple Bug ou User Story, tel qu’écrit dans le projet. Laissez vide pour tous.",
+            "de": "Zum Beispiel Bug oder User Story, wie im Projekt geschrieben. Leer lassen für alle.",
+            "es": "Por ejemplo Bug o User Story, tal como figura en el proyecto. Déjelo vacío para cualquiera."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "project_name",
+          "type": "string",
+          "label": {
+            "en": "Project name",
+            "fr": "Nom du projet",
+            "de": "Projektname",
+            "es": "Nombre del proyecto"
+          }
+        },
+        {
+          "key": "number",
+          "type": "number",
+          "label": {
+            "en": "Work item number",
+            "fr": "Numéro de l’élément",
+            "de": "Elementnummer",
+            "es": "Número del elemento"
+          }
+        },
+        {
+          "key": "title",
+          "type": "string",
+          "label": {
+            "en": "Title",
+            "fr": "Titre",
+            "de": "Titel",
+            "es": "Título"
+          }
+        },
+        {
+          "key": "work_item_type",
+          "type": "string",
+          "label": {
+            "en": "Type",
+            "fr": "Type",
+            "de": "Typ",
+            "es": "Tipo"
+          }
+        },
+        {
+          "key": "state",
+          "type": "string",
+          "label": {
+            "en": "State",
+            "fr": "État",
+            "de": "Status",
+            "es": "Estado"
+          }
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "label": {
+            "en": "Azure DevOps link",
+            "fr": "Lien Azure DevOps",
+            "de": "Azure-DevOps-Link",
+            "es": "Enlace de Azure DevOps"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready for a message, in the language of the integration.",
+            "fr": "Une phrase prête pour un message, dans la langue de l’intégration.",
+            "de": "Ein Satz für eine Nachricht, in der Sprache der Integration.",
+            "es": "Una frase lista para un mensaje, en el idioma de la integración."
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "get_project",
+      "label": {
+        "en": "Azure DevOps: read a project",
+        "fr": "Azure DevOps : lire un projet",
+        "de": "Azure DevOps: Projekt lesen",
+        "es": "Azure DevOps: leer un proyecto"
+      },
+      "description": {
+        "en": "The counters and latest run of a project, for a message or a condition.",
+        "fr": "Les compteurs et la dernière exécution d’un projet, pour un message ou une condition.",
+        "de": "Die Zähler und die letzte Ausführung eines Projekts, für eine Nachricht oder eine Bedingung.",
+        "es": "Los contadores y la última ejecución de un proyecto, para un mensaje o una condición."
+      },
+      "timeout_seconds": 60,
+      "fields": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "Leave empty for the first followed project.",
+            "fr": "Laissez vide pour le premier projet suivi.",
+            "de": "Leer lassen für das erste verfolgte Projekt.",
+            "es": "Déjelo vacío para el primer proyecto seguido."
+          },
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "key": "project_name",
+          "type": "string",
+          "label": {
+            "en": "Project name",
+            "fr": "Nom du projet",
+            "de": "Projektname",
+            "es": "Nombre del proyecto"
+          }
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "label": {
+            "en": "Azure DevOps link",
+            "fr": "Lien Azure DevOps",
+            "de": "Azure-DevOps-Link",
+            "es": "Enlace de Azure DevOps"
+          }
+        },
+        {
+          "key": "active_pull_requests",
+          "type": "number",
+          "label": {
+            "en": "Active pull requests",
+            "fr": "Pull requests actives",
+            "de": "Aktive Pull Requests",
+            "es": "Pull requests activas"
+          },
+          "description": {
+            "en": "-1 when unknown",
+            "fr": "-1 si inconnu",
+            "de": "-1 wenn unbekannt",
+            "es": "-1 si se desconoce"
+          }
+        },
+        {
+          "key": "pull_requests_to_review",
+          "type": "number",
+          "label": {
+            "en": "Pull requests to review",
+            "fr": "Pull requests à relire",
+            "de": "Zu prüfende Pull Requests",
+            "es": "Pull requests por revisar"
+          },
+          "description": {
+            "en": "-1 when unknown",
+            "fr": "-1 si inconnu",
+            "de": "-1 wenn unbekannt",
+            "es": "-1 si se desconoce"
+          }
+        },
+        {
+          "key": "my_work_items",
+          "type": "number",
+          "label": {
+            "en": "My work items",
+            "fr": "Mes éléments de travail",
+            "de": "Meine Arbeitselemente",
+            "es": "Mis elementos de trabajo"
+          },
+          "description": {
+            "en": "-1 when unknown",
+            "fr": "-1 si inconnu",
+            "de": "-1 wenn unbekannt",
+            "es": "-1 si se desconoce"
+          }
+        },
+        {
+          "key": "failed_pipelines",
+          "type": "number",
+          "label": {
+            "en": "Failed pipelines",
+            "fr": "Pipelines en échec",
+            "de": "Fehlgeschlagene Pipelines",
+            "es": "Pipelines fallidas"
+          },
+          "description": {
+            "en": "-1 when unknown",
+            "fr": "-1 si inconnu",
+            "de": "-1 wenn unbekannt",
+            "es": "-1 si se desconoce"
+          }
+        },
+        {
+          "key": "running_builds",
+          "type": "number",
+          "label": {
+            "en": "Running builds",
+            "fr": "Builds en cours",
+            "de": "Laufende Builds",
+            "es": "Builds en curso"
+          },
+          "description": {
+            "en": "-1 when unknown",
+            "fr": "-1 si inconnu",
+            "de": "-1 wenn unbekannt",
+            "es": "-1 si se desconoce"
+          }
+        },
+        {
+          "key": "last_build",
+          "type": "string",
+          "label": {
+            "en": "Last run",
+            "fr": "Dernière exécution",
+            "de": "Letzte Ausführung",
+            "es": "Última ejecución"
+          }
+        },
+        {
+          "key": "last_build_result",
+          "type": "string",
+          "label": {
+            "en": "Result of the last run",
+            "fr": "Résultat de la dernière exécution",
+            "de": "Ergebnis der letzten Ausführung",
+            "es": "Resultado de la última ejecución"
+          },
+          "description": {
+            "en": "succeeded, partiallySucceeded, failed or canceled",
+            "fr": "succeeded, partiallySucceeded, failed ou canceled",
+            "de": "succeeded, partiallySucceeded, failed oder canceled",
+            "es": "succeeded, partiallySucceeded, failed o canceled"
+          }
+        },
+        {
+          "key": "last_build_url",
+          "type": "string",
+          "label": {
+            "en": "Link of the last run",
+            "fr": "Lien de la dernière exécution",
+            "de": "Link der letzten Ausführung",
+            "es": "Enlace de la última ejecución"
+          }
+        },
+        {
+          "key": "latest_pull_request",
+          "type": "string",
+          "label": {
+            "en": "Latest pull request",
+            "fr": "Dernière pull request",
+            "de": "Neuester Pull Request",
+            "es": "Última pull request"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready for a message, in the language of the integration.",
+            "fr": "Une phrase prête pour un message, dans la langue de l’intégration.",
+            "de": "Ein Satz für eine Nachricht, in der Sprache der Integration.",
+            "es": "Una frase lista para un mensaje, en el idioma de la integración."
+          }
+        }
+      ]
+    },
+    {
+      "key": "run_pipeline",
+      "label": {
+        "en": "Azure DevOps: run a pipeline",
+        "fr": "Azure DevOps : lancer un pipeline",
+        "de": "Azure DevOps: Pipeline starten",
+        "es": "Azure DevOps: ejecutar una pipeline"
+      },
+      "description": {
+        "en": "Queues one run of a pipeline (scope Build: Read & execute). Each call queues one more run.",
+        "fr": "Met en file une exécution d’un pipeline (étendue Build : Read & execute). Chaque appel en ajoute une.",
+        "de": "Reiht eine Ausführung einer Pipeline ein (Bereich Build: Read & execute). Jeder Aufruf reiht eine weitere ein.",
+        "es": "Pone en cola una ejecución de una pipeline (ámbito Build: Read & execute). Cada llamada añade otra."
+      },
+      "timeout_seconds": 60,
+      "fields": [
+        {
+          "key": "project",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Project",
+            "fr": "Projet",
+            "de": "Projekt",
+            "es": "Proyecto"
+          },
+          "description": {
+            "en": "Leave empty for the first followed project.",
+            "fr": "Laissez vide pour le premier projet suivi.",
+            "de": "Leer lassen für das erste verfolgte Projekt.",
+            "es": "Déjelo vacío para el primer proyecto seguido."
+          },
+          "required": false
+        },
+        {
+          "key": "pipeline",
+          "type": "string",
+          "label": {
+            "en": "Pipeline",
+            "fr": "Pipeline",
+            "de": "Pipeline",
+            "es": "Pipeline"
+          },
+          "description": {
+            "en": "Its name, folder\\name, or its id (the definitionId of its link).",
+            "fr": "Son nom, dossier\\nom, ou son identifiant (le definitionId de son lien).",
+            "de": "Ihr Name, Ordner\\Name oder ihre ID (die definitionId ihres Links).",
+            "es": "Su nombre, carpeta\\nombre o su identificador (el definitionId de su enlace)."
+          },
+          "required": true
+        },
+        {
+          "key": "branch",
+          "type": "string",
+          "label": {
+            "en": "Branch",
+            "fr": "Branche",
+            "de": "Branch",
+            "es": "Rama"
+          },
+          "description": {
+            "en": "For example main. Leave empty for the default branch of the pipeline.",
+            "fr": "Par exemple main. Laissez vide pour la branche par défaut du pipeline.",
+            "de": "Zum Beispiel main. Leer lassen für den Standardbranch der Pipeline.",
+            "es": "Por ejemplo main. Déjelo vacío para la rama por defecto de la pipeline."
+          },
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "key": "project_name",
+          "type": "string",
+          "label": {
+            "en": "Project name",
+            "fr": "Nom du projet",
+            "de": "Projektname",
+            "es": "Nombre del proyecto"
+          }
+        },
+        {
+          "key": "pipeline",
+          "type": "string",
+          "label": {
+            "en": "Pipeline",
+            "fr": "Pipeline",
+            "de": "Pipeline",
+            "es": "Pipeline"
+          }
+        },
+        {
+          "key": "build_id",
+          "type": "number",
+          "label": {
+            "en": "Run id",
+            "fr": "Identifiant de l’exécution",
+            "de": "Ausführungs-ID",
+            "es": "Identificador de la ejecución"
+          }
+        },
+        {
+          "key": "build_number",
+          "type": "string",
+          "label": {
+            "en": "Run number",
+            "fr": "Numéro d’exécution",
+            "de": "Ausführungsnummer",
+            "es": "Número de ejecución"
+          }
+        },
+        {
+          "key": "branch",
+          "type": "string",
+          "label": {
+            "en": "Branch",
+            "fr": "Branche",
+            "de": "Branch",
+            "es": "Rama"
+          }
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "label": {
+            "en": "Link of the run",
+            "fr": "Lien de l’exécution",
+            "de": "Link der Ausführung",
+            "es": "Enlace de la ejecución"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready for a message, in the language of the integration.",
+            "fr": "Une phrase prête pour un message, dans la langue de l’intégration.",
+            "de": "Ein Satz für eine Nachricht, in der Sprache der Integration.",
+            "es": "Una frase lista para un mensaje, en el idioma de la integración."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,477 @@
+{
+  "devices": {
+    "project": {
+      "external_id": "ext:azure-devops:project:cbb18261-c48f-4abb-8651-8cdcb5474649",
+      "should_poll": false,
+      "params": ["AZURE_DEVOPS_PROJECT"],
+      "features": [
+        {
+          "external_id": "ext:azure-devops:project:cbb18261-c48f-4abb-8651-8cdcb5474649:active_pull_requests",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 100000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:azure-devops:project:cbb18261-c48f-4abb-8651-8cdcb5474649:pull_requests_to_review",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 100000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:azure-devops:project:cbb18261-c48f-4abb-8651-8cdcb5474649:my_work_items",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 100000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:azure-devops:project:cbb18261-c48f-4abb-8651-8cdcb5474649:failed_pipelines",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 100000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:azure-devops:project:cbb18261-c48f-4abb-8651-8cdcb5474649:running_builds",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 100000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:azure-devops:project:cbb18261-c48f-4abb-8651-8cdcb5474649:last_build",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:azure-devops:project:cbb18261-c48f-4abb-8651-8cdcb5474649:latest_pull_request",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0,
+          "read_only": true,
+          "has_feedback": false
+        }
+      ]
+    }
+  },
+  "manifest": {
+    "config_schema": [
+      {
+        "key": "intro",
+        "type": "section"
+      },
+      {
+        "key": "organization",
+        "type": "string"
+      },
+      {
+        "key": "token",
+        "type": "secret"
+      },
+      {
+        "key": "projects_intro",
+        "type": "section"
+      },
+      {
+        "key": "projects",
+        "type": "string"
+      },
+      {
+        "key": "poll_interval",
+        "type": "number"
+      },
+      {
+        "key": "language",
+        "type": "select"
+      }
+    ],
+    "scene_triggers": [
+      {
+        "key": "build_completed",
+        "fields": [
+          {
+            "key": "project",
+            "options": []
+          },
+          {
+            "key": "result",
+            "options": ["succeeded", "partiallySucceeded", "failed", "canceled"]
+          },
+          {
+            "key": "pipeline",
+            "options": []
+          },
+          {
+            "key": "branch",
+            "options": []
+          }
+        ],
+        "variables": [
+          {
+            "key": "project_name",
+            "type": "string"
+          },
+          {
+            "key": "pipeline",
+            "type": "string"
+          },
+          {
+            "key": "build_number",
+            "type": "string"
+          },
+          {
+            "key": "result",
+            "type": "string"
+          },
+          {
+            "key": "branch",
+            "type": "string"
+          },
+          {
+            "key": "requested_by",
+            "type": "string"
+          },
+          {
+            "key": "reason",
+            "type": "string"
+          },
+          {
+            "key": "url",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "pull_request_created",
+        "fields": [
+          {
+            "key": "project",
+            "options": []
+          },
+          {
+            "key": "repository",
+            "options": []
+          },
+          {
+            "key": "target_branch",
+            "options": []
+          }
+        ],
+        "variables": [
+          {
+            "key": "project_name",
+            "type": "string"
+          },
+          {
+            "key": "repository",
+            "type": "string"
+          },
+          {
+            "key": "number",
+            "type": "number"
+          },
+          {
+            "key": "title",
+            "type": "string"
+          },
+          {
+            "key": "author",
+            "type": "string"
+          },
+          {
+            "key": "draft",
+            "type": "boolean"
+          },
+          {
+            "key": "target_branch",
+            "type": "string"
+          },
+          {
+            "key": "url",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "review_requested",
+        "fields": [
+          {
+            "key": "project",
+            "options": []
+          },
+          {
+            "key": "repository",
+            "options": []
+          }
+        ],
+        "variables": [
+          {
+            "key": "project_name",
+            "type": "string"
+          },
+          {
+            "key": "repository",
+            "type": "string"
+          },
+          {
+            "key": "number",
+            "type": "number"
+          },
+          {
+            "key": "title",
+            "type": "string"
+          },
+          {
+            "key": "author",
+            "type": "string"
+          },
+          {
+            "key": "target_branch",
+            "type": "string"
+          },
+          {
+            "key": "url",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "pull_request_completed",
+        "fields": [
+          {
+            "key": "project",
+            "options": []
+          },
+          {
+            "key": "repository",
+            "options": []
+          },
+          {
+            "key": "target_branch",
+            "options": []
+          }
+        ],
+        "variables": [
+          {
+            "key": "project_name",
+            "type": "string"
+          },
+          {
+            "key": "repository",
+            "type": "string"
+          },
+          {
+            "key": "number",
+            "type": "number"
+          },
+          {
+            "key": "title",
+            "type": "string"
+          },
+          {
+            "key": "author",
+            "type": "string"
+          },
+          {
+            "key": "target_branch",
+            "type": "string"
+          },
+          {
+            "key": "url",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "work_item_assigned",
+        "fields": [
+          {
+            "key": "project",
+            "options": []
+          },
+          {
+            "key": "work_item_type",
+            "options": []
+          }
+        ],
+        "variables": [
+          {
+            "key": "project_name",
+            "type": "string"
+          },
+          {
+            "key": "number",
+            "type": "number"
+          },
+          {
+            "key": "title",
+            "type": "string"
+          },
+          {
+            "key": "work_item_type",
+            "type": "string"
+          },
+          {
+            "key": "state",
+            "type": "string"
+          },
+          {
+            "key": "url",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "scene_actions": [
+      {
+        "key": "get_project",
+        "fields": ["project"],
+        "outputs": [
+          {
+            "key": "project_name",
+            "type": "string"
+          },
+          {
+            "key": "url",
+            "type": "string"
+          },
+          {
+            "key": "active_pull_requests",
+            "type": "number"
+          },
+          {
+            "key": "pull_requests_to_review",
+            "type": "number"
+          },
+          {
+            "key": "my_work_items",
+            "type": "number"
+          },
+          {
+            "key": "failed_pipelines",
+            "type": "number"
+          },
+          {
+            "key": "running_builds",
+            "type": "number"
+          },
+          {
+            "key": "last_build",
+            "type": "string"
+          },
+          {
+            "key": "last_build_result",
+            "type": "string"
+          },
+          {
+            "key": "last_build_url",
+            "type": "string"
+          },
+          {
+            "key": "latest_pull_request",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "run_pipeline",
+        "fields": ["project", "pipeline", "branch"],
+        "outputs": [
+          {
+            "key": "project_name",
+            "type": "string"
+          },
+          {
+            "key": "pipeline",
+            "type": "string"
+          },
+          {
+            "key": "build_id",
+            "type": "number"
+          },
+          {
+            "key": "build_number",
+            "type": "string"
+          },
+          {
+            "key": "branch",
+            "type": "string"
+          },
+          {
+            "key": "url",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "widgets": [
+      {
+        "key": "overview",
+        "settings": ["project"],
+        "options": {}
+      },
+      {
+        "key": "pipelines",
+        "settings": ["project", "count"],
+        "options": {}
+      },
+      {
+        "key": "pull_requests",
+        "settings": ["project", "filter", "count"],
+        "options": {
+          "filter": ["all", "to_review", "mine"]
+        }
+      },
+      {
+        "key": "work_items",
+        "settings": ["project", "count"],
+        "options": {}
+      }
+    ]
+  }
+}
